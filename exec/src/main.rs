@@ -85,6 +85,14 @@ async fn run(data: TempFile<'_>,lang:ProgramLang) -> String {
                 .stderr(Stdio::piped())
                 .spawn().unwrap())
         }
+        "go" => {
+            Some(Command::new("go")
+                .arg("run")
+                .arg(data.path().unwrap().to_str().unwrap())
+                .stdout(Stdio::piped())
+                .stderr(Stdio::piped())
+                .spawn().unwrap())
+        }
         _ => {
             output.push_str(format!("{:?} Is not a valid language",lang.0).as_str());
             None

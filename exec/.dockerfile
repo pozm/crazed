@@ -11,9 +11,7 @@ FROM archlinux:base-devel
 
 
 RUN pacman-db-upgrade
-RUN pacman -Syu --noconfirm
-RUN pacman -S python --noconfirm
-
+RUN pacman -Syu python go --noconfirm
 
 RUN groupadd -g 9929 pog && \
     useradd -r -u 9929 -m -g pog pog
@@ -32,7 +30,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --defau
 ENV PATH="/home/pog/.cargo/bin:${PATH}"
 RUN cargo install cargo-play
 
-workdir ~
+WORKDIR ~
 
 COPY Rocket.toml .
 COPY --from=builder /usr/local/cargo/bin/exec /usr/local/bin/exec
