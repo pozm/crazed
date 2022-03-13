@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  exec:
+    build:
+      context: ./exec
+      dockerfile: ./.dockerfile
+#    working_dir: ./exec
+    networks:
+      - no-internet
+    environment:
+      - ROCKET_ENV=prod
+    dns: 0.0.0.0
+    ports:
+      - "8000:8000"
+  crazed:
+    build:
+      context: ./crazed
+      dockerfile: ./.dockerfile
+    networks:
+      - no-internet
+      - internet
+    links:
+      - exec
+networks:
+  no-internet:
+    driver: bridge
+    internal: true
+  internet:
+    driver: bridge
